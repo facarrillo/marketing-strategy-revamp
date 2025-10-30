@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Action Items - Marketing Strategy Revamp</title>
+    <style>
+        :root {
+            --brand-green: #27FB6B;
+            --brand-navy: #00052E;
+            --brand-white: #FFFFFF;
+            --colombian-yellow: #FFD700;
+            --turquoise: #01CFFB;
+            --soft-bg: #E1FFEF;
+            --shadow: rgba(0, 5, 46, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--brand-navy) 0%, #001a3d 100%);
+            color: var(--brand-white);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Left Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(0, 5, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 2px solid var(--brand-green);
+            overflow-y: auto;
+            z-index: 1000;
+            padding: 20px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--brand-green) rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--brand-green);
+            border-radius: 3px;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(39, 251, 107, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon-small {
+            width: 40px;
+            height: 40px;
+            background: var(--brand-green);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--brand-navy);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--brand-white);
+            margin-bottom: 5px;
+        }
+
+        .brief-id {
+            font-size: 0.85rem;
+            color: var(--brand-green);
+            margin-top: 5px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 2px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 10px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(39, 251, 107, 0.1);
+            color: var(--brand-green);
+            border-left-color: var(--brand-green);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        .content-header {
+            background: rgba(39, 251, 107, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 2px solid var(--brand-green);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--brand-green);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--brand-navy);
+            box-shadow: 0 5px 20px rgba(39, 251, 107, 0.4);
+        }
+
+        .header-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, var(--brand-white), var(--brand-green));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-text p {
+            color: var(--brand-green);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .meta-info {
+            background: var(--brand-green);
+            color: var(--brand-navy);
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 20px rgba(39, 251, 107, 0.3);
+        }
+
+        .section {
+            margin-bottom: 40px;
+            scroll-margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--brand-green);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--brand-green);
+            font-weight: 600;
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .topic-badge {
+            background: rgba(39, 251, 107, 0.2);
+            border: 1px solid var(--brand-green);
+            color: var(--brand-green);
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .topic-badge:hover {
+            background: var(--brand-green);
+            color: var(--brand-navy);
+            transform: translateY(-2px);
+        }
+
+        .action-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid var(--brand-green);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(39, 251, 107, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .action-item:hover {
+            transform: translateX(5px);
+            border-color: var(--brand-green);
+            box-shadow: 0 10px 30px rgba(39, 251, 107, 0.3);
+        }
+
+        .action-number {
+            display: inline-block;
+            background: var(--brand-green);
+            color: var(--brand-navy);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(39, 251, 107, 0.4);
+        }
+
+        .action-title {
+            font-size: 1.4rem;
+            color: var(--brand-white);
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .owner-badge {
+            display: inline-block;
+            background: var(--turquoise);
+            color: var(--brand-navy);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .action-detail {
+            margin: 12px 0;
+            padding-left: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .action-detail strong {
+            color: var(--brand-green);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1.05rem;
+        }
+
+        .action-detail ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .action-detail li {
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .priority-high {
+            border-left-color: var(--colombian-yellow);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .priority-badge {
+            display: inline-block;
+            background: var(--colombian-yellow);
+            color: var(--brand-navy);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .follow-up-questions {
+            background: rgba(1, 207, 251, 0.1);
+            border-left: 4px solid var(--turquoise);
+            border: 1px solid rgba(1, 207, 251, 0.3);
+            padding: 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .follow-up-questions h3 {
+            color: var(--turquoise);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .follow-up-questions ol {
+            margin-left: 25px;
+        }
+
+        .follow-up-questions li {
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+        }
+
+        .recording-info {
+            background: rgba(39, 251, 107, 0.1);
+            border-left: 4px solid var(--brand-green);
+            border: 1px solid rgba(39, 251, 107, 0.3);
+            padding: 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .recording-info h3 {
+            color: var(--brand-green);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .recording-info ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .recording-info li {
+            padding: 10px 0;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid rgba(39, 251, 107, 0.1);
+        }
+
+        .recording-info li:last-child {
+            border-bottom: none;
+        }
+
+        .recording-info li strong {
+            color: var(--brand-green);
+        }
+
+        .notes-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid var(--colombian-yellow);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .notes-box h3 {
+            color: var(--colombian-yellow);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .notes-box ul {
+            margin-left: 25px;
+        }
+
+        .notes-box li {
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+        }
+
+        .notes-box li strong {
+            color: var(--colombian-yellow);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 2px solid var(--brand-green);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .header-text h1 {
+                font-size: 1.8rem;
+            }
+
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media print {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .action-item {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <div class="logo-icon-small">MB</div>
+                <div>
+                    <h1>Meeting Notes</h1>
+                    <p class="brief-id">Action Items</p>
+                </div>
+            </div>
+        </div>
+
+        <nav>
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a href="#overview" class="nav-link">Overview</a></li>
+                <li class="nav-item"><a href="#topics" class="nav-link">Key Topics</a></li>
+                <li class="nav-item"><a href="#action-items" class="nav-link">Action Items</a></li>
+                <li class="nav-item"><a href="#item-1" class="nav-link">1. Payment Automation</a></li>
+                <li class="nav-item"><a href="#item-2" class="nav-link">2. Payment Forecasting</a></li>
+                <li class="nav-item"><a href="#item-3" class="nav-link">3. Gamification Strategy</a></li>
+                <li class="nav-item"><a href="#item-4" class="nav-link">4. First Week Bonuses</a></li>
+                <li class="nav-item"><a href="#item-5" class="nav-link">5. Funding Methods</a></li>
+                <li class="nav-item"><a href="#item-6" class="nav-link">6. Financial Education</a></li>
+                <li class="nav-item"><a href="#item-7" class="nav-link">7. Direct Deposit Awareness</a></li>
+                <li class="nav-item"><a href="#item-8" class="nav-link">8. Gig App Partnership</a></li>
+                <li class="nav-item"><a href="#item-9" class="nav-link">9. Customer Journey</a></li>
+                <li class="nav-item"><a href="#item-10" class="nav-link">10. Deep Advisory</a></li>
+                <li class="nav-item"><a href="#item-11" class="nav-link">11. Customer Satisfaction</a></li>
+                <li class="nav-item"><a href="#item-12" class="nav-link">12. Referral Program</a></li>
+                <li class="nav-item"><a href="#follow-up" class="nav-link">Follow-up Questions</a></li>
+                <li class="nav-item"><a href="#recording" class="nav-link">Recording Info</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-header" id="overview">
+            <div class="header-content">
+                <div class="header-logo">
+                    <div class="logo-icon">MB</div>
+                    <div class="header-text">
+                        <h1>Meeting Action Items</h1>
+                        <p>Marketing Strategy Revamp</p>
+                    </div>
+                </div>
+                <div class="meta-info">
+                    October 30, 2025<br>
+                    Duration: 60 min
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Topics -->
+        <section class="section" id="topics">
+            <h2 class="section-title">Key Topics Discussed</h2>
+            <div class="topics-grid">
+                <div class="topic-badge">Payment Automation</div>
+                <div class="topic-badge">Rewards System</div>
+                <div class="topic-badge">Gamification Strategy</div>
+                <div class="topic-badge">Customer Activation</div>
+                <div class="topic-badge">Marketing Campaigns</div>
+                <div class="topic-badge">Financial Education</div>
+            </div>
+        </section>
+
+        <!-- Action Items -->
+        <section class="section" id="action-items">
+            <h2 class="section-title">Action Items</h2>
+
+            <!-- Action Item 1 -->
+            <div class="action-item priority-high" id="item-1">
+                <div class="action-title">
+                    <span class="action-number">1</span>
+                    <span>Automate Payment Process</span>
+                    <span class="priority-badge">High Priority</span>
+                </div>
+                <span class="owner-badge">Owner: Tech/Product Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Automate the reward payment system so that when a client qualifies based on criteria, payment is triggered automatically without manual intervention.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Current Issue:</strong>
+                    <p>Manual payment processing causing delays and customer dissatisfaction.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Goal:</strong>
+                    <p>Payments should be automatic when client qualifies - client qualification should be the trigger for payment.</p>
+                </div>
+            </div>
+
+            <!-- Action Item 2 -->
+            <div class="action-item" id="item-2">
+                <div class="action-title">
+                    <span class="action-number">2</span>
+                    <span>Implement Payment Forecasting</span>
+                </div>
+                <span class="owner-badge">Owner: Finance/Operations Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Create a forecast system to predict reward payment amounts and pre-fund accounts.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Example:</strong>
+                    <p>If 10,000 users with 20% conversion at $X per user, need to have funds available upfront (e.g., $2,000 ready for distribution).</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Purpose:</strong>
+                    <p>Enable automated payment distribution by ensuring funds are available when needed.</p>
+                </div>
+            </div>
+
+            <!-- Action Item 3 -->
+            <div class="action-item" id="item-3">
+                <div class="action-title">
+                    <span class="action-number">3</span>
+                    <span>Design 6-Step Gamification Strategy</span>
+                </div>
+                <span class="owner-badge">Owner: Marketing Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Implement the six-step customer journey with gamified bonuses:</p>
+                    <ul>
+                        <li><strong>Step 1:</strong> First week onboarding journey with 5 gamified bonuses</li>
+                        <li><strong>Step 2:</strong> Viral referral program leveraging trust networks</li>
+                        <li><strong>Step 3:</strong> User-generated content and authentic testimonials</li>
+                        <li><strong>Step 4:</strong> Financial education content</li>
+                        <li><strong>Step 5:</strong> Rewards/loyalty program ("Más Bambu")</li>
+                        <li><strong>Step 6:</strong> To be determined</li>
+                    </ul>
+                </div>
+                <div class="action-detail">
+                    <strong>Goal:</strong>
+                    <p>Keep customers engaged beyond 2-3 months and improve retention.</p>
+                </div>
+            </div>
+
+            <!-- Action Item 4 -->
+            <div class="action-item" id="item-4">
+                <div class="action-title">
+                    <span class="action-number">4</span>
+                    <span>Create First Week Bonus Structure</span>
+                </div>
+                <span class="owner-badge">Owner: Marketing/Product Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Implement progressive bonus system for first 7 days:</p>
+                    <ul>
+                        <li><strong>Day 1:</strong> Fund account with $10+ → receive $3 bonus</li>
+                        <li><strong>Day 3:</strong> Activate card → receive $5 bonus</li>
+                        <li><strong>Day 5:</strong> Set up direct deposit → receive $25 bonus</li>
+                        <li><strong>Day 7:</strong> Complete all tasks → receive $10 bonus</li>
+                    </ul>
+                </div>
+                <div class="action-detail">
+                    <strong>Total Potential:</strong>
+                    <p>~$43 in bonuses during first week</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Note:</strong>
+                    <p>Day 5 direct deposit bonus may need adjustment - need to verify if we can track when clients receive their first paycheck with us.</p>
+                </div>
+            </div>
+
+            <!-- Action Item 5 -->
+            <div class="action-item" id="item-5">
+                <div class="action-title">
+                    <span class="action-number">5</span>
+                    <span>Address Funding Methods Strategy</span>
+                </div>
+                <span class="owner-badge">Owner: Product/Marketing Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Re-evaluate promotion strategy for funding methods.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Current Situation:</strong>
+                    <ul>
+                        <li>Heavy focus on direct deposit and cash methods</li>
+                        <li>Venmo, Zelle, and other P2P methods being deprioritized</li>
+                        <li>However, P2P methods are growing and may be easier for some user segments</li>
+                    </ul>
+                </div>
+                <div class="action-detail">
+                    <strong>Question to Answer:</strong>
+                    <p>Should we also promote alternative funding methods (Venmo, Zelle) despite being less formal?</p>
+                </div>
+            </div>
+
+            <!-- Action Item 6 -->
+            <div class="action-item" id="item-6">
+                <div class="action-title">
+                    <span class="action-number">6</span>
+                    <span>Develop Financial Education Rewards Program</span>
+                </div>
+                <span class="owner-badge">Owner: Marketing/Content Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Create educational content about how to use the app and financial literacy.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Reward Structure:</strong>
+                    <p>Clients who complete financial education courses receive bonuses.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Why:</strong>
+                    <p>Survey data shows many users "don't know how to use it".</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Benefit:</strong>
+                    <p>Educated clients = better long-term retention and engagement.</p>
+                </div>
+            </div>
+
+            <!-- Action Item 7 -->
+            <div class="action-item" id="item-7">
+                <div class="action-title">
+                    <span class="action-number">7</span>
+                    <span>Investigate Direct Deposit Awareness</span>
+                </div>
+                <span class="owner-badge">Owner: UX/Marketing Research Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Research if gig economy workers (Uber, DoorDash, construction, etc.) understand what "direct deposit" means.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Alternative Naming:</strong>
+                    <p>Consider "depósito de sueldo" or other clearer language for Spanish-speaking users.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Question:</strong>
+                    <p>How do gig apps (DoorDash, Uber, etc.) label this feature in their apps?</p>
+                </div>
+            </div>
+
+            <!-- Action Item 8 -->
+            <div class="action-item" id="item-8">
+                <div class="action-title">
+                    <span class="action-number">8</span>
+                    <span>Explore Strategic Partnership with Gig Apps</span>
+                </div>
+                <span class="owner-badge">Owner: Business Development Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Investigate partnership opportunities with platforms like DoorDash, Uber.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Rationale:</strong>
+                    <p>Large portion of user base works for these apps.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>User Behavior Data:</strong>
+                    <ul>
+                        <li>Average: $650-$1,100 per transaction</li>
+                        <li>Monthly average: ~$1,700-$800 per user</li>
+                        <li>Transaction frequency: ~3-3.5 transactions per month</li>
+                        <li>Pattern: Weekly/bi-weekly cashouts</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Action Item 9 -->
+            <div class="action-item priority-high" id="item-9">
+                <div class="action-title">
+                    <span class="action-number">9</span>
+                    <span>Customer Journey Optimization</span>
+                    <span class="priority-badge">High Priority</span>
+                </div>
+                <span class="owner-badge">Owner: Product/CX Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Attack the full customer journey from start to finish.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Current Problems:</strong>
+                    <ul>
+                        <li>High rewards budget for new accounts</li>
+                        <li>Clients take long time to fund accounts</li>
+                        <li>Activity drops after 2-3 months</li>
+                        <li>Need to reduce time to activation</li>
+                    </ul>
+                </div>
+                <div class="action-detail">
+                    <strong>Goal:</strong>
+                    <p>Fast activation → sustained engagement through multiple touchpoints.</p>
+                </div>
+            </div>
+
+            <!-- Action Item 10 -->
+            <div class="action-item" id="item-10">
+                <div class="action-title">
+                    <span class="action-number">10</span>
+                    <span>Review and Implement Deep Advisory Recommendations</span>
+                </div>
+                <span class="owner-badge">Owner: Leadership/Marketing Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Review the Deep Advisory analysis document and implement recommendations.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Key Finding:</strong>
+                    <p>Activation problem, not just acquisition problem.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Next Steps:</strong>
+                    <p>Implement the actionable items from the strategy document (contains step-by-step daily strategy).</p>
+                </div>
+            </div>
+
+            <!-- Action Item 11 -->
+            <div class="action-item priority-high" id="item-11">
+                <div class="action-title">
+                    <span class="action-number">11</span>
+                    <span>Address Customer Satisfaction Issues</span>
+                    <span class="priority-badge">High Priority</span>
+                </div>
+                <span class="owner-badge">Owner: CX/Product Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Address the drop in customer satisfaction scores.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Root Cause:</strong>
+                    <p>Customer satisfaction has dropped primarily due to delayed reward payments, not product issues.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Connection:</strong>
+                    <p>This is directly tied to Action Item #1 (automate payments).</p>
+                </div>
+            </div>
+
+            <!-- Action Item 12 -->
+            <div class="action-item" id="item-12">
+                <div class="action-title">
+                    <span class="action-number">12</span>
+                    <span>Create Referral Program Structure</span>
+                </div>
+                <span class="owner-badge">Owner: Marketing/Growth Team</span>
+                <div class="action-detail">
+                    <strong>Description:</strong>
+                    <p>Design viral referral program with attractive incentives.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Example Structure Referenced:</strong>
+                    <ul>
+                        <li>$25 bonus for setting up direct deposit</li>
+                        <li>$15 bonus for card purchase within 15 days</li>
+                        <li>Total potential: $80+ per activated referral</li>
+                    </ul>
+                </div>
+                <div class="action-detail">
+                    <strong>Comparison Point:</strong>
+                    <p>Other platforms offer $50-$100 for deposits of $1,000-$30,000.</p>
+                </div>
+                <div class="action-detail">
+                    <strong>Data Needed:</strong>
+                    <p>Current average direct deposit amount (pull September data).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Follow-up Questions -->
+        <section class="section" id="follow-up">
+            <h2 class="section-title">Follow-up Questions to Resolve</h2>
+            <div class="follow-up-questions">
+                <h3>Questions Requiring Answers</h3>
+                <ol>
+                    <li>Can we track when clients receive their first employer paycheck deposited with us?</li>
+                    <li>What specific programs/tools does Finance/Operations use for fund disbursement?</li>
+                    <li>What are the exact user segments and their preferred funding methods?</li>
+                    <li>What percentage of users work for gig economy platforms?</li>
+                    <li>What is the current customer retention rate at 3 months? 6 months?</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Recording Info -->
+        <section class="section" id="recording">
+            <h2 class="section-title">Recording & Transcript</h2>
+            <div class="recording-info">
+                <h3>Technical Details</h3>
+                <ul>
+                    <li><strong>Original Recording:</strong> New Recording 19.m4a</li>
+                    <li><strong>Transcript Location:</strong> /tmp/transcript_es.txt</li>
+                    <li><strong>Transcription Method:</strong> Whisper.cpp (Spanish language model)</li>
+                    <li><strong>Duration:</strong> 60 minutes 37 seconds</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Notes -->
+        <div class="notes-box">
+            <h3>Important Notes</h3>
+            <ul>
+                <li>Meeting was recorded and fully transcribed from Spanish</li>
+                <li>All action items extracted from Spanish-language discussion</li>
+                <li>Several strategic initiatives require cross-functional collaboration</li>
+                <li><strong>Priority should be on automating payment system (Action Item #1)</strong> as it affects multiple other initiatives</li>
+                <li>Retention data shows ~70% of users stay for 3 months after receiving rewards, but engagement drops significantly after that</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+
+                    // Update active state
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Highlight active section on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section, .action-item');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
